@@ -26,10 +26,13 @@ public class PostService {
         return postRepository.save(post);
     }
 
+    //List all post
     public List<Post> getAllPosts(){
         return postRepository.findAll();
     }
 
+
+    //Update viewCount
     public Post getPostById(Long postId){
         Optional<Post> optionalPost = postRepository.findById(postId);
         if(optionalPost.isPresent()){
@@ -38,6 +41,18 @@ public class PostService {
             return postRepository.save(post);
         }else{
             throw  new EntityNotFoundException("Post not found");
+        }
+    }
+
+    //Update likeCount
+    public void likePost(Long postId){
+        Optional<Post> optionalPost = postRepository.findById((postId));
+        if(optionalPost.isPresent()){
+            Post post = optionalPost.get();
+            post.setLikeCount(post.getLikeCount() + 1);
+            postRepository.save(post);
+        }else{
+            throw new EntityNotFoundException("Post not found");
         }
     }
 }

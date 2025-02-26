@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.text.html.parser.Entity;
 import java.util.List;
 
 @RestController
@@ -45,6 +44,16 @@ public class PostController {
     public ResponseEntity<?> getPostById(@PathVariable Long postId){
         try{
             return ResponseEntity.ok(postService.getPostById(postId));
+        }catch (EntityNotFoundException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
+    @PatchMapping("/{postId}/like")
+    public ResponseEntity<String> likePost(@PathVariable Long postId){
+        try{
+           postService.likePost(postId);
+           return ResponseEntity.ok("success");
         }catch (EntityNotFoundException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
