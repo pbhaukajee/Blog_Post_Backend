@@ -1,6 +1,7 @@
 package com.blogPost.Blog.Posts.controller;
 
 
+import com.blogPost.Blog.Posts.entity.CommentSection;
 import com.blogPost.Blog.Posts.service.CommentSectionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,10 +18,11 @@ public class CommentSectionController {
         this.commentSectionService = commentSectionService;
     }
 
+
     @PostMapping("/comments")
-    public ResponseEntity<?> createComment(@RequestParam Long postId, @RequestParam String postedBy, @RequestParam String comment){
+    public ResponseEntity<?> createComment(@RequestParam Long postId, @RequestBody CommentSection comments) {
         try{
-            return ResponseEntity.ok(commentSectionService.createComment(postId, postedBy, comment));
+            return ResponseEntity.ok(commentSectionService.createComment(postId, comments));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e.getMessage());
         }

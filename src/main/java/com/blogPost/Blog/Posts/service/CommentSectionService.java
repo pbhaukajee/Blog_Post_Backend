@@ -9,6 +9,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 
+import java.security.PublicKey;
 import java.util.Date;
 import java.util.Optional;
 
@@ -23,21 +24,21 @@ public class CommentSectionService {
         this.postRepository = postRepository;
     }
 
-    public CommentSection createComment(Long postId, String postedBy, String comment){
-        Optional<Post> optionalPost = postRepository.findById(postId);
-        if(optionalPost.isPresent()){
-            CommentSection commentSection = new CommentSection();
-            commentSection.setPost(optionalPost.get());
-            commentSection.setComment(comment);
-            commentSection.setPostedBy(postedBy);
-            commentSection.setCreatedAt(new Date());
 
-            return commentSectionRepository.save(commentSection);
+        public CommentSection createComment(Long postId, CommentSection comments){
+            Optional<Post> optionalPost = postRepository.findById(postId);
+          if(optionalPost.isPresent()){
+            comments.setPost(optionalPost.get());
+            comments.setComment(comments.getComment());
+            comments.setPostedBy(comments.getPostedBy());
+            comments.setCreatedAt(new Date());
+
+            return commentSectionRepository.save(comments);
 
         }else{
             throw new EntityNotFoundException("Post not found");
         }
-    }
+        }
 
 
 }
