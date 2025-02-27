@@ -61,7 +61,7 @@ public class PostController {
 
 
     @GetMapping("/search/{title}")
-    public ResponseEntity<?> findByTitle(@PathVariable String title){
+    public ResponseEntity<List<Post>> findByTitle(@PathVariable String title){
         try{
             return ResponseEntity.status(HttpStatus.OK).body(postService.findByTitle(title));
         } catch (Exception e) {
