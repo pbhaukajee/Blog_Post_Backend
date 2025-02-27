@@ -55,4 +55,9 @@ public class PostService {
             throw new EntityNotFoundException("Post not found");
         }
     }
+
+    //Search post by title
+    public List<Post> findByTitle(String title){
+        return postRepository.findByTitleContainingIgnoreCase(title);
+    }
 }
