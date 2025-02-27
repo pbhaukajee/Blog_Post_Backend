@@ -9,4 +9,6 @@ import java.util.List;
 public interface CommentSectionRepository extends JpaRepository<CommentSection, Long> {
 
     List<CommentSection> findByPostId(Long postId);
+
+    void deletePostById(Long postId);
 }

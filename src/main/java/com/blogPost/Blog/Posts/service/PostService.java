@@ -3,6 +3,7 @@ package com.blogPost.Blog.Posts.service;
 import com.blogPost.Blog.Posts.entity.Post;
 import com.blogPost.Blog.Posts.repository.PostRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -13,9 +14,11 @@ import java.util.Optional;
 public class PostService {
 
     private final PostRepository postRepository;
+    private final CommentSectionService commentSectionService;
 
-    public PostService(PostRepository postRepository){
+    public PostService(PostRepository postRepository, CommentSectionService commentSectionService){
         this.postRepository = postRepository;
+        this.commentSectionService = commentSectionService;
     }
 
     public Post savePost(Post post){
@@ -59,5 +62,18 @@ public class PostService {
     //Search post by title
     public List<Post> findByTitle(String title){
         return postRepository.findByTitleContainingIgnoreCase(title);
+    }
+
+    //Delete Post
+    @Transactional
+    public String deletePostById(Long postId){
+        Optional<Post> optionalPost = postRepository.findById(postId);
+        if(optionalPost.isPresent()){
+            Post post = optionalPost.get();
+            postRepository.delete(post);
+            return "Post deleted successfully";
+        }else{
+            throw new EntityNotFoundException("Post not found");
+        }
     }
 }

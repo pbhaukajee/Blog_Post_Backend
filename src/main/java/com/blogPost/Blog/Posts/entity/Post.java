@@ -4,6 +4,7 @@ package com.blogPost.Blog.Posts.entity;
 import jakarta.persistence.*;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Post {
@@ -26,6 +27,9 @@ public class Post {
     private Integer likeCount;
 
     private Integer viewCount;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CommentSection> commentSections;
 
     public Long getId() {
         return id;

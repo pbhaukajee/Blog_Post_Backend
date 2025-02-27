@@ -6,11 +6,11 @@ import com.blogPost.Blog.Posts.entity.Post;
 import com.blogPost.Blog.Posts.repository.CommentSectionRepository;
 import com.blogPost.Blog.Posts.repository.PostRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import org.hibernate.annotations.Comments;
 import org.springframework.stereotype.Service;
 
 
-import java.security.PublicKey;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -44,6 +44,12 @@ public class CommentSectionService {
 
     public List<CommentSection> getCommentsByPostId(Long postId){
         return commentSectionRepository.findByPostId(postId);
+    }
+
+
+
+    public void deleteCommentsByPostId(Long postId){
+        commentSectionRepository.deletePostById(postId);
     }
 
 
