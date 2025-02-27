@@ -19,7 +19,7 @@ public class CommentSectionController {
     }
 
 
-    @PostMapping("/comments")
+    @PostMapping("/comments/create")
     public ResponseEntity<?> createComment(@RequestParam Long postId, @RequestBody CommentSection comments) {
         try{
             return ResponseEntity.ok(commentSectionService.createComment(postId, comments));
@@ -27,5 +27,16 @@ public class CommentSectionController {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e.getMessage());
         }
     }
+
+    @GetMapping("/comments/{postId}")
+    public ResponseEntity<?> getCommentsByPostId(@PathVariable Long postId){
+        try{
+            return ResponseEntity.ok(commentSectionService.getCommentsByPostId(postId));
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Something went wrong");
+        }
+    }
+
+
 
 }

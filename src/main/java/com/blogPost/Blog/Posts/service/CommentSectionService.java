@@ -6,11 +6,13 @@ import com.blogPost.Blog.Posts.entity.Post;
 import com.blogPost.Blog.Posts.repository.CommentSectionRepository;
 import com.blogPost.Blog.Posts.repository.PostRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.hibernate.annotations.Comments;
 import org.springframework.stereotype.Service;
 
 
 import java.security.PublicKey;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -25,9 +27,9 @@ public class CommentSectionService {
     }
 
 
-        public CommentSection createComment(Long postId, CommentSection comments){
-            Optional<Post> optionalPost = postRepository.findById(postId);
-          if(optionalPost.isPresent()){
+    public CommentSection createComment(Long postId, CommentSection comments){
+        Optional<Post> optionalPost = postRepository.findById(postId);
+        if(optionalPost.isPresent()){
             comments.setPost(optionalPost.get());
             comments.setComment(comments.getComment());
             comments.setPostedBy(comments.getPostedBy());
@@ -38,7 +40,11 @@ public class CommentSectionService {
         }else{
             throw new EntityNotFoundException("Post not found");
         }
-        }
+    }
+
+    public List<CommentSection> getCommentsByPostId(Long postId){
+        return commentSectionRepository.findByPostId(postId);
+    }
 
 
 }
